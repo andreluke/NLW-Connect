@@ -1,8 +1,9 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import z from 'zod'
-import { StatusCodes } from '../enums/statuscode'
+import { StatusCodes } from '../enums/status-code'
+import { subscribeToEvent } from '../functions/subscribe-to-event'
 
-export const subscribeToItem: FastifyPluginAsyncZod = async app => {
+export const subscribeToItemRoute: FastifyPluginAsyncZod = async app => {
   app.post(
     '/subscriptions',
     {
@@ -15,8 +16,7 @@ export const subscribeToItem: FastifyPluginAsyncZod = async app => {
         }),
         response: {
           [StatusCodes.CREATED]: z.object({
-            name: z.string(),
-            email: z.string().email(),
+            subscriberId: z.string(),
           }),
           [StatusCodes.BAD_REQUEST]: z.object({
             message: z.string(),
@@ -27,7 +27,9 @@ export const subscribeToItem: FastifyPluginAsyncZod = async app => {
     async (request, reply) => {
       const { name, email } = request.body
 
-      return reply.status(StatusCodes.CREATED).send({ name, email })
+      const { subscriberId } = await subscribeToEvent({ name, email })
+
+      return reply.status(StatusCodes.CREATED).send({ subscriberId })
     }
   )
 }

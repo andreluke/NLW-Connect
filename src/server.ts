@@ -8,7 +8,8 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
-import { subscribeToItem } from './routes/subscribe-to-item'
+import { accessInviteLinkRoute } from './routes/access-invite-link-route'
+import { subscribeToItemRoute } from './routes/subscribe-to-item-route'
 import { env } from './settings/env'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
@@ -34,8 +35,9 @@ app.register(fastifySwaggerUi, {
 app.setSerializerCompiler(serializerCompiler)
 app.setValidatorCompiler(validatorCompiler)
 
-app.register(subscribeToItem)
+app.register(subscribeToItemRoute)
+app.register(accessInviteLinkRoute)
 
 app.listen({ port: env.PORT }).then(() => {
-  console.log('HTTP server running')
+  console.log(`HTTP server running on port ${env.PORT}`)
 })
