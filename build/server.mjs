@@ -1,19 +1,5 @@
 // src/server.ts
-import { fastifyCors } from "@fastify/cors";
-import { fastifySwagger } from "@fastify/swagger";
-import { fastifySwaggerUi } from "@fastify/swagger-ui";
 import { fastify } from "fastify";
-import {
-  jsonSchemaTransform,
-  serializerCompiler,
-  validatorCompiler
-} from "fastify-type-provider-zod";
-
-// src/routes/access-invite-link-route.ts
-import { z as z2 } from "zod";
-
-// src/redis/client.ts
-import { Redis } from "ioredis";
 
 // src/settings/env.ts
 import { z } from "zod";
@@ -25,7 +11,46 @@ var envSchema = z.object({
 });
 var env = envSchema.parse(process.env);
 
+// src/config/base-config.ts
+var portSettings = {
+  PORT: env.PORT,
+  BASE_URL: `http://localhost:${env.PORT}`
+};
+
+// src/config/pluggins.ts
+import { fastifyCors } from "@fastify/cors";
+import { fastifySwagger } from "@fastify/swagger";
+import { fastifySwaggerUi } from "@fastify/swagger-ui";
+import {
+  jsonSchemaTransform,
+  serializerCompiler,
+  validatorCompiler
+} from "fastify-type-provider-zod";
+function registerPlugins(app2) {
+  app2.register(fastifyCors, {
+    origin: portSettings.BASE_URL
+  });
+  app2.register(fastifySwagger, {
+    openapi: {
+      info: {
+        title: "NLW Connect",
+        version: "0.0.1"
+      }
+    },
+    transform: jsonSchemaTransform
+  });
+  app2.register(fastifySwaggerUi, {
+    routePrefix: "/docs"
+  });
+  app2.setSerializerCompiler(serializerCompiler);
+  app2.setValidatorCompiler(validatorCompiler);
+}
+
+// src/routes/access-invite-link-route.ts
+import { z as z2 } from "zod";
+
 // src/redis/client.ts
+import { Redis } from "ioredis";
 var redis = new Redis(env.REDIS_URL);
 
 // src/functions/access-invite-link.ts
@@ -326,31 +351,27 @@ var subscribeToItemRoute = async (app2) => {
   );
 };
 
+// src/routes/index.ts
+var routes = [
+  subscribeToItemRoute,
+  accessInviteLinkRoute,
+  getSubscriberInviteClicksRoute,
+  getSubscriberInvitesCountRoute,
+  getSubscriberRankingPositionRoute,
+  getRankingRoute
+];
+
+// src/config/routes.ts
+function registerRoutes(app2) {
+  for (const route of routes) {
+    app2.register(route);
+  }
+}
+
 // src/server.ts
 var app = fastify().withTypeProvider();
-app.register(fastifyCors, {
-  origin: "http://localhost:3333"
-});
-app.register(fastifySwagger, {
-  openapi: {
-    info: {
-      title: "NLW Connect",
-      version: "0.0.1"
-    }
-  },
-  transform: jsonSchemaTransform
-});
-app.register(fastifySwaggerUi, {
-  routePrefix: "/docs"
-});
-app.setSerializerCompiler(serializerCompiler);
-app.setValidatorCompiler(validatorCompiler);
-app.register(subscribeToItemRoute);
-app.register(accessInviteLinkRoute);
-app.register(getSubscriberInviteClicksRoute);
-app.register(getSubscriberInvitesCountRoute);
-app.register(getSubscriberRankingPositionRoute);
-app.register(getRankingRoute);
+registerPlugins(app);
+registerRoutes(app);
 app.listen({ port: env.PORT }).then(() => {
-  console.log(`HTTP server running on port ${env.PORT}`);
+  console.log(`HTTP server running on port ${portSettings.PORT}`);
 });
