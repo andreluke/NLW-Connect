@@ -3,8 +3,21 @@ Content-Type: application/json
 
 {
     "name": "Luke",
-    "email": "andreluke@gmail.com"
+    "email": "andreluksssse@gmail.com",
+    "referrer": "b7203e5d-292d-43bc-a2c9-77a174d0d1dd"
 }
 
 ###
-GET http://localhost:3333/invites/luke
+GET http://localhost:3333/invites/b71c5f46-8f37-424f-93fb-f6d0bc159f5d
+
+###
+GET http://localhost:3333/subscribers/b71c5f46-8f37-424f-93fb-f6d0bc159f5d/ranking/clicks
+
+###
+GET http://localhost:3333/subscribers/b71c5f46-8f37-424f-93fb-f6d0bc159f5d/ranking/count
+
+###
+GET http://localhost:3333/subscribers/b71c5f46-8f37-424f-93fb-f6d0bc159f5d/ranking/position
+
+###
+GET http://localhost:3333/ranking
