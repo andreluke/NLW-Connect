@@ -12,4 +12,5 @@ registerRoutes(app)
 
 app.listen({ port: env.PORT }).then(() => {
   console.log(`HTTP server running on port ${portSettings.PORT}`)
+  console.log(`See the documentation on ${portSettings.BASE_URL}/docs`)
 })

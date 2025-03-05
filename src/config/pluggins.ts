@@ -11,7 +11,7 @@ import { portSettings } from './base-config'
 
 export function registerPlugins(app: FastifyInstance) {
   app.register(fastifyCors, {
-    origin: portSettings.BASE_URL,
+    origin: [portSettings.BASE_URL, portSettings.WEB_URL],
   })
 
   app.register(fastifySwagger, {
