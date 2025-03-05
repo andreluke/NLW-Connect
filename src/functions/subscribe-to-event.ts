@@ -1,18 +1,13 @@
 import { eq } from 'drizzle-orm'
-import { db } from '../drizzle/client'
+import type { SubscribeToEventParams } from '../@types'
 import { subscriptions } from '../drizzle/schema/subscriptions'
-import { redis } from '../redis/client'
-
-interface SubscribeToEventParams {
-  name: string
-  email: string
-  referrerId: string | null
-}
 
 export async function subscribeToEvent({
   name,
   email,
   referrerId,
+  db,
+  redis,
 }: SubscribeToEventParams) {
   const subscribers = await db
     .select()

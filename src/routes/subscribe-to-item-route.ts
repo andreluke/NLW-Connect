@@ -1,7 +1,9 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import z from 'zod'
+import { db } from '../drizzle/client'
 import { StatusCodes } from '../enums/status-code'
 import { subscribeToEvent } from '../functions/subscribe-to-event'
+import { redis } from '../redis/client'
 
 export const subscribeToItemRoute: FastifyPluginAsyncZod = async app => {
   app.post(
@@ -33,6 +35,8 @@ export const subscribeToItemRoute: FastifyPluginAsyncZod = async app => {
         name,
         email,
         referrerId: referrer || null,
+        db,
+        redis,
       })
 
       return reply.status(StatusCodes.CREATED).send({ subscriberId })

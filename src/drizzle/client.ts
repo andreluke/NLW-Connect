@@ -9,3 +9,5 @@ export const db = drizzle(pg, {
     subscriptions,
   },
 })
+
+export type dbType = typeof db

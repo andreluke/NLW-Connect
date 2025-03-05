@@ -1,9 +1,8 @@
 import { inArray } from 'drizzle-orm'
-import { db } from '../drizzle/client'
+import type { GetRankingParams } from '../@types'
 import { subscriptions } from '../drizzle/schema/subscriptions'
-import { redis } from '../redis/client'
 
-export async function getRanking() {
+export async function getRanking({ redis, db }: GetRankingParams) {
   const ranking = await redis.zrevrange('referral:ranking', 0, 2, 'WITHSCORES')
   const subscriberMap: Record<string, number> = {}
 

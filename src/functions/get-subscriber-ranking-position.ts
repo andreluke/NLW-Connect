@@ -1,11 +1,8 @@
-import { redis } from '../redis/client'
-
-interface GetSubscriberRankingPositionParams {
-  subscriberId: string
-}
+import type { GetSubscriberRankingPositionParams } from '../@types'
 
 export async function getSubscriberRankingPosition({
   subscriberId,
+  redis,
 }: GetSubscriberRankingPositionParams) {
   const rank = await redis.zrevrank('referral:ranking', subscriberId)
 

@@ -2,6 +2,7 @@ import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 import { StatusCodes } from '../enums/status-code'
 import { getSubscriberRankingPosition } from '../functions/get-subscriber-ranking-position'
+import { redis } from '../redis/client'
 
 export const getSubscriberRankingPositionRoute: FastifyPluginAsyncZod =
   async app => {
@@ -27,6 +28,7 @@ export const getSubscriberRankingPositionRoute: FastifyPluginAsyncZod =
 
         const { position } = await getSubscriberRankingPosition({
           subscriberId,
+          redis,
         })
 
         return { position }
