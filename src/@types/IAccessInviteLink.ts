@@ -1,4 +1,4 @@
-import type Redis from 'ioredis'
+import type { Redis } from 'ioredis'
 
 interface RedisClient {
   hincrby: (
@@ -13,4 +13,4 @@ interface AccessInviteLinkParams {
   redis: RedisClient | Redis
 }
 
-export type { AccessInviteLinkParams }
+export type { AccessInviteLinkParams, RedisClient as RedisClientHincrby }
