@@ -6,5 +6,12 @@
   "editor.codeActionsOnSave": {
     "source.organizeImports.biome": "explicit"
   },
-  "cSpell.words": ["hget", "hincrby", "WITHSCORES", "zrevrange"]
+  "cSpell.words": [
+    "hget",
+    "hincrby",
+    "WITHSCORES",
+    "zincrby",
+    "Zincrby",
+    "zrevrange"
+  ]
 }

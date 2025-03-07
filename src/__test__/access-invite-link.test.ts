@@ -1,7 +1,5 @@
-import { accessInviteLink } from '../functions'
-import { mockHincrby } from './mocks'
-
-const userId = 'user123'
+import { accessInviteLink } from '#/functions'
+import { mockHincrby, userId } from './mocks'
 
 describe('AccessInviteLink', () => {
   it('Deve chamar redis.hincrby com os parâmetros corretos', async () => {
