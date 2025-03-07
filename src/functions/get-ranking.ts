@@ -1,6 +1,6 @@
 import { inArray } from 'drizzle-orm'
-import type { GetRankingParams } from '../@types'
-import { subscriptions } from '../drizzle/schema/subscriptions'
+import type { GetRankingParams } from '#/@types'
+import { subscriptions } from '#/drizzle/schema/subscriptions'
 
 export async function getRanking({ redis, db }: GetRankingParams) {
   const ranking = await redis.zrevrange('referral:ranking', 0, 2, 'WITHSCORES')

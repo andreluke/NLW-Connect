@@ -1,5 +1,5 @@
 import type { Redis } from 'ioredis'
-import type { dbType } from '../drizzle/client'
+import type { dbType } from '#/drizzle/client'
 
 interface RedisClient {
   zrevrange: (

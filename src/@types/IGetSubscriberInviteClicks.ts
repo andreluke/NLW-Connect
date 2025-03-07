@@ -9,4 +9,4 @@ interface GetSubscriberInviteClicksParams {
   redis: RedisClient | Redis
 }
 
-export type { GetSubscriberInviteClicksParams }
+export type { GetSubscriberInviteClicksParams, RedisClient as RedisClientHget }

@@ -1,4 +1,4 @@
-import type { GetSubscriberInvitesCountParams } from '../@types'
+import type { GetSubscriberInvitesCountParams } from '#/@types'
 
 export async function getSubscriberInvitesCount({
   subscriberId,

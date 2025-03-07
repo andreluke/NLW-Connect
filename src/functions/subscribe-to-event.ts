@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm'
-import type { SubscribeToEventParams } from '../@types'
-import { subscriptions } from '../drizzle/schema/subscriptions'
+import type { SubscribeToEventParams } from '#/@types'
+import { subscriptions } from '#/drizzle/schema/subscriptions'
 
 export async function subscribeToEvent({
   name,

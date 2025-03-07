@@ -1,8 +1,8 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { z } from 'zod'
-import { StatusCodes } from '../enums/status-code'
-import { getSubscriberInvitesCount } from '../functions/get-subscriber-invites-count'
-import { redis } from '../redis/client'
+import { StatusCodes } from '#/enums/status-code'
+import { getSubscriberInvitesCount } from '#/functions/get-subscriber-invites-count'
+import { redis } from '#/redis/client'
 
 export const getSubscriberInvitesCountRoute: FastifyPluginAsyncZod =
   async app => {

@@ -1,4 +1,4 @@
-import type { GetSubscriberRankingPositionParams } from '../@types'
+import type { GetSubscriberRankingPositionParams } from '#/@types'
 
 export async function getSubscriberRankingPosition({
   subscriberId,

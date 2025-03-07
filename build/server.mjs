@@ -14,7 +14,8 @@ var env = envSchema.parse(process.env);
 // src/config/base-config.ts
 var portSettings = {
   PORT: env.PORT,
-  BASE_URL: `http://localhost:${env.PORT}`
+  BASE_URL: `http://localhost:${env.PORT}`,
+  WEB_URL: env.WEB_URL
 };
 
 // src/config/pluggins.ts
@@ -28,7 +29,7 @@ import {
 } from "fastify-type-provider-zod";
 function registerPlugins(app2) {
   app2.register(fastifyCors, {
-    origin: portSettings.BASE_URL
+    origin: [portSettings.BASE_URL, portSettings.WEB_URL]
   });
   app2.register(fastifySwagger, {
     openapi: {
@@ -49,16 +50,18 @@ function registerPlugins(app2) {
 // src/routes/access-invite-link-route.ts
 import { z as z2 } from "zod";
 
+// src/functions/access-invite-link.ts
+async function accessInviteLink({
+  subscriberId,
+  redis: redis2
+}) {
+  const result = await redis2.hincrby("referral:access-count", subscriberId, 1);
+  return result;
+}
+
 // src/redis/client.ts
 import { Redis } from "ioredis";
 var redis = new Redis(env.REDIS_URL);
-
-// src/functions/access-invite-link.ts
-async function accessInviteLink({
-  subscriberId
-}) {
-  await redis.hincrby("referral:access-count", subscriberId, 1);
-}
 
 // src/routes/access-invite-link-route.ts
 var accessInviteLinkRoute = async (app2) => {
@@ -68,6 +71,7 @@ var accessInviteLinkRoute = async (app2) => {
       schema: {
         summary: "Access invite link and redirect user",
         tags: ["Referral"],
+        operationId: "accessInviteLink",
         params: z2.object({
           subscriberId: z2.string()
         }),
@@ -81,7 +85,7 @@ var accessInviteLinkRoute = async (app2) => {
     },
     async (request, reply) => {
       const { subscriberId } = request.params;
-      await accessInviteLink({ subscriberId });
+      await accessInviteLink({ subscriberId, redis });
       const redirectUrl = new URL(env.WEB_URL);
       redirectUrl.searchParams.set("referrer", subscriberId);
       return reply.redirect(
@@ -94,9 +98,6 @@ var accessInviteLinkRoute = async (app2) => {
 
 // src/routes/get-ranking-route.ts
 import { z as z3 } from "zod";
-
-// src/functions/get-ranking.ts
-import { inArray } from "drizzle-orm";
 
 // src/drizzle/client.ts
 import { drizzle } from "drizzle-orm/postgres-js";
@@ -120,13 +121,14 @@ var db = drizzle(pg, {
 });
 
 // src/functions/get-ranking.ts
-async function getRanking() {
-  const ranking = await redis.zrevrange("referral:ranking", 0, 2, "WITHSCORES");
+import { inArray } from "drizzle-orm";
+async function getRanking({ redis: redis2, db: db2 }) {
+  const ranking = await redis2.zrevrange("referral:ranking", 0, 2, "WITHSCORES");
   const subscriberMap = {};
   for (let i = 0; i < ranking.length; i += 2) {
     subscriberMap[ranking[i]] = Number.parseInt(ranking[i + 1]);
   }
-  const subscribers = await db.select().from(subscriptions).where(inArray(subscriptions.id, Object.keys(subscriberMap)));
+  const subscribers = await db2.select().from(subscriptions).where(inArray(subscriptions.id, Object.keys(subscriberMap)));
   const rankingWithScore = subscribers.map((subscriber) => {
     return {
       id: subscriber.id,
@@ -145,6 +147,7 @@ var getRankingRoute = async (app2) => {
       schema: {
         summary: "Get ranking",
         tags: ["Referral"],
+        operationId: "getRanking",
         response: {
           [200 /* OK */]: z3.object({
             ranking: z3.array(
@@ -159,7 +162,7 @@ var getRankingRoute = async (app2) => {
       }
     },
     async (request) => {
-      const { rankingWithScore } = await getRanking();
+      const { rankingWithScore } = await getRanking({ redis, db });
       return { ranking: rankingWithScore };
     }
   );
@@ -170,9 +173,10 @@ import { z as z4 } from "zod";
 
 // src/functions/get-subscriber-invite-clicks.ts
 async function getSubscriberInviteClicks({
-  subscriberId
+  subscriberId,
+  redis: redis2
 }) {
-  const count = await redis.hget("referral:access-count", subscriberId);
+  const count = await redis2.hget("referral:access-count", subscriberId);
   return {
     count: count ? Number.parseInt(count) : 0
   };
@@ -186,6 +190,7 @@ var getSubscriberInviteClicksRoute = async (app2) => {
       schema: {
         summary: "Get the number of clicks on the subscriber invite link",
         tags: ["Referral"],
+        operationId: "getSubscriberInviteClicks",
         params: z4.object({
           subscriberId: z4.string()
         }),
@@ -198,7 +203,10 @@ var getSubscriberInviteClicksRoute = async (app2) => {
     },
     async (request) => {
       const { subscriberId } = request.params;
-      const { count } = await getSubscriberInviteClicks({ subscriberId });
+      const { count } = await getSubscriberInviteClicks({
+        subscriberId,
+        redis
+      });
       return { count };
     }
   );
@@ -209,9 +217,10 @@ import { z as z5 } from "zod";
 
 // src/functions/get-subscriber-invites-count.ts
 async function getSubscriberInvitesCount({
-  subscriberId
+  subscriberId,
+  redis: redis2
 }) {
-  const count = await redis.zscore("referral:ranking", subscriberId);
+  const count = await redis2.zscore("referral:ranking", subscriberId);
   return {
     count: count ? Number.parseInt(count) : 0
   };
@@ -225,6 +234,7 @@ var getSubscriberInvitesCountRoute = async (app2) => {
       schema: {
         summary: "Get subscriber invites count",
         tags: ["Referral"],
+        operationId: "getSubscriberInviteCount",
         params: z5.object({
           subscriberId: z5.string()
         }),
@@ -237,7 +247,10 @@ var getSubscriberInvitesCountRoute = async (app2) => {
     },
     async (request) => {
       const { subscriberId } = request.params;
-      const { count } = await getSubscriberInvitesCount({ subscriberId });
+      const { count } = await getSubscriberInvitesCount({
+        subscriberId,
+        redis
+      });
       return { count };
     }
   );
@@ -248,9 +261,10 @@ import { z as z6 } from "zod";
 
 // src/functions/get-subscriber-ranking-position.ts
 async function getSubscriberRankingPosition({
-  subscriberId
+  subscriberId,
+  redis: redis2
 }) {
-  const rank = await redis.zrevrank("referral:ranking", subscriberId);
+  const rank = await redis2.zrevrank("referral:ranking", subscriberId);
   if (rank === null) {
     return { position: null };
   }
@@ -267,6 +281,7 @@ var getSubscriberRankingPositionRoute = async (app2) => {
       schema: {
         summary: "Get subscriber ranking position",
         tags: ["Referral"],
+        operationId: "getSubscriberRankingPosition",
         params: z6.object({
           subscriberId: z6.string()
         }),
@@ -280,7 +295,8 @@ var getSubscriberRankingPositionRoute = async (app2) => {
     async (request) => {
       const { subscriberId } = request.params;
       const { position } = await getSubscriberRankingPosition({
-        subscriberId
+        subscriberId,
+        redis
       });
       return { position };
     }
@@ -295,20 +311,22 @@ import { eq } from "drizzle-orm";
 async function subscribeToEvent({
   name,
   email,
-  referrerId
+  referrerId,
+  db: db2,
+  redis: redis2
 }) {
-  const subscribers = await db.select().from(subscriptions).where(eq(subscriptions.email, email));
+  const subscribers = await db2.select().from(subscriptions).where(eq(subscriptions.email, email));
   if (subscribers.length > 0) {
     return {
       subscriberId: subscribers[0].id
     };
   }
-  const result = await db.insert(subscriptions).values({
+  const result = await db2.insert(subscriptions).values({
     name,
     email
   }).returning();
   if (referrerId) {
-    await redis.zincrby("referral:ranking", 1, referrerId);
+    await redis2.zincrby("referral:ranking", 1, referrerId);
   }
   const subscriber = result[0];
   return {
@@ -324,10 +342,11 @@ var subscribeToItemRoute = async (app2) => {
       schema: {
         summary: "Subscribe someone to the event",
         tags: ["Subscription"],
+        operationId: "subscribeToEvent",
         body: z7.object({
           name: z7.string(),
           email: z7.string().email(),
-          referrer: z7.string().nullable()
+          referrer: z7.string().nullish()
         }),
         response: {
           [201 /* CREATED */]: z7.object({
@@ -344,7 +363,9 @@ var subscribeToItemRoute = async (app2) => {
       const { subscriberId } = await subscribeToEvent({
         name,
         email,
-        referrerId: referrer
+        referrerId: referrer || null,
+        db,
+        redis
       });
       return reply.status(201 /* CREATED */).send({ subscriberId });
     }
@@ -374,4 +395,5 @@ registerPlugins(app);
 registerRoutes(app);
 app.listen({ port: env.PORT }).then(() => {
   console.log(`HTTP server running on port ${portSettings.PORT}`);
+  console.log(`See the documentation on ${portSettings.BASE_URL}/docs`);
 });

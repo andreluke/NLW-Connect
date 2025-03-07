@@ -1,4 +1,4 @@
-import type { GetSubscriberInviteClicksParams } from '../@types'
+import type { GetSubscriberInviteClicksParams } from '#/@types'
 
 export async function getSubscriberInviteClicks({
   subscriberId,

@@ -1,4 +1,4 @@
-import { env } from '../settings/env'
+import { env } from '#/settings/env'
 
 const portSettings = {
   PORT: env.PORT,

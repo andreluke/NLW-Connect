@@ -1,8 +1,8 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { z } from 'zod'
-import { StatusCodes } from '../enums/status-code'
-import { getSubscriberInviteClicks } from '../functions/get-subscriber-invite-clicks'
-import { redis } from '../redis/client'
+import { StatusCodes } from '#/enums/status-code'
+import { getSubscriberInviteClicks } from '#/functions/get-subscriber-invite-clicks'
+import { redis } from '#/redis/client'
 
 export const getSubscriberInviteClicksRoute: FastifyPluginAsyncZod =
   async app => {
