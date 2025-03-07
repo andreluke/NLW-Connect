@@ -8,7 +8,7 @@ interface DBClient {
     }
   }
   insert: (table: unknown) => {
-    values: (data: unknown) => {
+    values: (data: { name: string; email: string }) => {
       returning: () => Promise<{ id: string }[]>
     }
   }
@@ -26,4 +26,8 @@ interface SubscribeToEventParams {
   redis: RedisClient | Redis
 }
 
-export type { SubscribeToEventParams }
+export type {
+  SubscribeToEventParams,
+  DBClient as SubscribeDB,
+  RedisClient as RedisClientZincrby,
+}
