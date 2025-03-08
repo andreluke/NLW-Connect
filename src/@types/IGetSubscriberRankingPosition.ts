@@ -12,4 +12,7 @@ interface GetSubscriberRankingPositionParams {
   redis: RedisClient | Redis
 }
 
-export type { GetSubscriberRankingPositionParams }
+export type {
+  GetSubscriberRankingPositionParams,
+  RedisClient as RedisClientZrevrank,
+}
