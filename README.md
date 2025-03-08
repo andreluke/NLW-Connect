@@ -38,7 +38,7 @@ api/
 ### Pré-requisitos
 
 - [Node.js](https://nodejs.org/) instalado
-- [Docker](https://www.docker.com/) para rodar o banco de dados localmente (opcional)
+- [Docker](https://www.docker.com/) para rodar o banco de dados localmente
 
 ### Passos para Rodar o Projeto
 
@@ -59,7 +59,7 @@ api/
    - Crie um arquivo `.env.dev` com base no `.env.example`
    - Ajuste os valores conforme necessário
 
-4. Suba o banco de dados com Docker (opcional):
+4. Suba o banco de dados com Docker:
 
    ```sh
    docker-compose up -d
@@ -108,7 +108,7 @@ Este projeto está sob a licença **ISC**.
 
 🚀 **Desenvolvido com Fastify e Drizzle ORM para máxima performance e eficiência!**
 
-### Filetree completa
+### File Tree completa
 
 ```sh
 api/
