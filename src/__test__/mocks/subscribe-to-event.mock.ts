@@ -1,4 +1,5 @@
 import type { RedisClientZincrby, SubscribeDB } from '#/@types'
+import { isValidConditionEmail } from './utils.mock'
 
 const subscribersMap: { [email: string]: { id: string; name: string } } = {}
 
@@ -8,15 +9,8 @@ const mockDbSubscribe: SubscribeDB = {
   select: jest.fn(() => ({
     from: () => ({
       where: async (condition: unknown) => {
-        if (
-          typeof condition === 'object' &&
-          condition !== null &&
-          'email' in condition &&
-          // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-          typeof (condition as any).email === 'string'
-        ) {
-          // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-          const email = (condition as any).email
+        if (isValidConditionEmail(condition)) {
+          const email = condition.email
           const subscriber = subscribersMap[email]
           return subscriber ? [{ id: subscriber.id }] : []
         }
