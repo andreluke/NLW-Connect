@@ -21,8 +21,6 @@ const mockZrevrank: RedisClientZrevrank = {
         return entry === member
       })
 
-      console.log('memberIndex', memberIndex)
-
       if (memberIndex !== -1) {
         return Math.floor(memberIndex / 2)
       }
