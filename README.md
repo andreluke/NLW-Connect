@@ -45,8 +45,8 @@ api/
 1. Clone o repositório:
 
    ```sh
-   git clone https://github.com/seu-usuario/nodenlw.git
-   cd nodenlw
+   git clone https://github.com/andreluke/NLW-Connect/
+   cd NLW-Connect
    ```
 
 2. Instale as dependências:
