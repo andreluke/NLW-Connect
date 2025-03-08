@@ -1,4 +1,6 @@
 POST http://localhost:3333/subscriptions
+
+# Exemplo de requisição post
 Content-Type: application/json
 
 {

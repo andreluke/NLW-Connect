@@ -196,8 +196,7 @@ api/
 │  ├─ settings/
 │  │  └─ env.ts
 │  └─ server.ts
-├─ .env
-├─ .env.dev
+├─ .env.example
 ├─ .gitignore
 ├─ api.http
 ├─ biome.json
