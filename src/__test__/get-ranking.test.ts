@@ -47,15 +47,16 @@ describe('GetRanking', () => {
     rankingSubscribersMap['user-2'] = { id: 'user-2', name: 'Bob' }
     rankingSubscribersMap['user-3'] = { id: 'user-3', name: 'Charlie' }
 
-    const result = await getRanking({ redis: mockZrevrange, db: mockDbRanking })
-
-    expect(result).toEqual({
-      rankingWithScore: [
-        { id: 'user-1', name: 'Alice', score: 10 },
-        { id: 'user-2', name: 'Bob', score: 5 },
-        { id: 'user-3', name: 'Charlie', score: 3 },
-      ],
+    const { rankingWithScore } = await getRanking({
+      redis: mockZrevrange,
+      db: mockDbRanking,
     })
+
+    expect(rankingWithScore).toEqual([
+      { id: 'user-1', name: 'Alice', score: 10 },
+      { id: 'user-2', name: 'Bob', score: 5 },
+      { id: 'user-3', name: 'Charlie', score: 3 },
+    ])
   })
 
   it('Deve ordenar corretamente os vencedores do primeiro ao último', async () => {
@@ -77,17 +78,15 @@ describe('GetRanking', () => {
     rankingSubscribersMap['user-2'] = { id: 'user-2', name: 'Bob' }
     rankingSubscribersMap['user-3'] = { id: 'user-3', name: 'Charlie' }
 
-    const result = await getRanking({
+    const { rankingWithScore } = await getRanking({
       redis: mockZrevrange,
       db: mockDbRanking,
     })
 
-    expect(result).toEqual({
-      rankingWithScore: [
-        { id: 'user-2', name: 'Bob', score: 5 },
-        { id: 'user-3', name: 'Charlie', score: 3 },
-        { id: 'user-1', name: 'Alice', score: 2 },
-      ],
-    })
+    expect(rankingWithScore).toEqual([
+      { id: 'user-2', name: 'Bob', score: 5 },
+      { id: 'user-3', name: 'Charlie', score: 3 },
+      { id: 'user-1', name: 'Alice', score: 2 },
+    ])
   })
 })
