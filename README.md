@@ -62,7 +62,7 @@ api/
 4. Suba o banco de dados com Docker:
 
    ```sh
-   docker-compose up -d
+   docker compose up -d
    ```
 
 5. Rode as migrações do banco de dados:
