@@ -209,3 +209,296 @@ api/
 ├─ tsconfig.json
 └─ tsup.config.ts
 ```
+
+## 📁 Estrutura de Pastas e Arquivos
+
+### `api/`
+
+Pasta principal que contém a implementação de uma API, incluindo código-fonte, configurações e testes.
+
+---
+
+#### `.github/`
+
+Armazena arquivos de configuração do GitHub Actions.
+
+- **`workflows/`**  
+  Diretório onde os fluxos de trabalho do GitHub Actions são definidos.
+
+  - **`workflow.yml`**  
+    Arquivo de configuração para os fluxos de trabalho de CI/CD.
+
+---
+
+#### `.vscode/`
+
+Configurações específicas do VSCode.
+
+- **`settings.json`**  
+  Arquivo para personalizar o ambiente de desenvolvimento no VSCode.
+
+---
+
+#### `build/`
+
+Arquivos relacionados à construção e inicialização do projeto.
+
+- **`server.mjs`**  
+  Arquivo de inicialização do servidor, utilizando ES Modules.
+
+---
+
+#### `src/`
+
+Contém o código-fonte da aplicação.
+
+- **`src/__test__/`**  
+  Diretório que armazena testes unitários.
+
+  - **`src/__test__/mocks/`**  
+    Contém mocks utilizados nos testes.
+
+    - **`access-invite-link.mock.ts`**  
+        Mock de dados para testar o link de convite de acesso.
+
+    - **`constant.mock.ts`**  
+        Mock com dados constantes utilizados em múltiplos testes.
+
+    - **`get-ranking.mock.ts`**  
+        Mock para testar o ranking de usuários.
+
+    - **`get-subscriber-invite-clicks.mock.ts`**  
+        Mock para testar os cliques de convite de assinantes.
+
+    - **`get-subscriber-invites-count.mock.ts`**  
+        Mock para testar a contagem de convites de assinantes.
+
+    - **`get-subscriber-ranking-position.mock.ts`**  
+        Mock para testar a posição no ranking de assinantes.
+
+    - **`index.ts`**  
+        Arquivo principal que importa e gerencia todos os mocks.
+
+    - **`subscribe-to-event.mock.ts`**  
+        Mock para testar a inscrição em eventos.
+
+    - **`utils.mock.ts`**  
+        Mock de utilitários compartilhados nos testes.
+
+  - **`access-invite-link.test.ts`**  
+    Teste unitário para o link de convite de acesso.
+
+  - **`get-ranking.test.ts`**  
+    Teste unitário para obter o ranking de usuários.
+
+  - **`get-subscriber-invite-clicks.test.ts`**  
+    Teste unitário para os cliques nos links de convite de assinantes.
+
+  - **`get-subscriber-invites-count.test.ts`**  
+    Teste unitário para a contagem de convites de assinantes.
+
+  - **`get-subscriber-ranking-position.test.ts`**  
+    Teste unitário para obter a posição no ranking de assinantes.
+
+  - **`subscribe-to-event.test.ts`**  
+    Teste unitário para inscrição em eventos.
+
+---
+
+- **`@types/`**  
+  Definições de tipos TypeScript para a aplicação.
+
+  - **`IAccessInviteLink.ts`**  
+    Interface para o link de convite de acesso.
+
+  - **`IGetRanking.ts`**  
+    Interface para obter ranking de usuários.
+
+  - **`IGetSubscriberInviteClicks.ts`**  
+    Interface para obter os cliques de convite de assinantes.
+
+  - **`IGetSubscriberInvitesCount.ts`**  
+    Interface para obter a contagem de convites de assinantes.
+
+  - **`IGetSubscriberRankingPosition.ts`**  
+    Interface para obter a posição no ranking de assinantes.
+
+  - **`index.ts`**  
+    Arquivo principal para exportação de todos os tipos.
+
+  - **`ISubscribeToEvent.ts`**  
+    Interface para inscrição em eventos.
+
+---
+
+- **`config/`**  
+  Arquivos de configuração da aplicação.
+
+  - **`base-config.ts`**  
+    Configurações base da aplicação.
+
+  - **`plugins.ts`**  
+    Configurações de plugins utilizados na aplicação.
+
+  - **`routes.ts`**  
+    Arquivo para definir as rotas principais da aplicação.
+
+---
+
+- **`drizzle/`**  
+  Arquivos relacionados ao ORM Drizzle e migrações do banco de dados.
+
+  - **`migrations/`**  
+    Scripts para migração de banco de dados.
+
+    - **`meta/`**  
+      Armazena metadados de migrações.
+
+      - **`_journal.json`**  
+        Registro das migrações aplicadas.
+
+      - **`0000_snapshot.json`**  
+        Arquivo de snapshot de migração.
+
+    - **`0000_tough_lifeguard.sql`**  
+      Arquivo SQL de migração para o banco de dados.
+
+  - **`schema/`**  
+    Define o esquema do banco de dados.
+
+    - **`subscriptions.ts`**  
+      Define o modelo de assinaturas no banco de dados.
+
+  - **`client.ts`**  
+    Arquivo que configura o cliente Drizzle para interagir com o banco de dados.
+
+---
+
+- **`enums/`**  
+  Contém enums utilizados na aplicação.
+
+  - **`status-code.ts`**  
+    Enum que define códigos de status HTTP.
+
+---
+
+- **`functions/`**  
+  Contém as funções principais da API.
+
+  - **`access-invite-link.ts`**  
+    Função para gerar e gerenciar links de convite de acesso.
+
+  - **`get-ranking.ts`**  
+    Função para obter o ranking de usuários.
+
+  - **`get-subscriber-invite-clicks.ts`**  
+    Função para obter os cliques de convite de assinantes.
+
+  - **`get-subscriber-invites-count.ts`**  
+    Função para obter a contagem de convites de assinantes.
+
+  - **`get-subscriber-ranking-position.ts`**  
+    Função para obter a posição no ranking de assinantes.
+
+  - **`index.ts`**  
+    Arquivo principal para exportação das funções.
+
+  - **`subscribe-to-event.ts`**  
+    Função para gerenciar inscrições em eventos.
+
+---
+
+- **`redis/`**  
+  Configurações do cliente Redis para comunicação com o banco de dados Redis.
+
+  - **`client.ts`**  
+    Arquivo que configura o cliente Redis para a aplicação.
+
+---
+
+- **`routes/`**  
+  Contém a definição das rotas da API.
+
+  - **`access-invite-link-route.ts`**  
+    Rota para gerenciar os links de convite de acesso.
+
+  - **`get-ranking-route.ts`**  
+    Rota para obter o ranking de usuários.
+
+  - **`get-subscriber-invite-clicks-route.ts`**  
+    Rota para obter os cliques de convite de assinantes.
+
+  - **`get-subscriber-invites-count-route.ts`**  
+    Rota para obter a contagem de convites de assinantes.
+
+  - **`get-subscriber-ranking-position-route.ts`**  
+    Rota para obter a posição no ranking de assinantes.
+
+  - **`index.ts`**  
+    Arquivo principal para exportação das rotas.
+
+  - **`subscribe-to-item-route.ts`**  
+    Rota para gerenciar inscrições em itens.
+
+---
+
+- **`settings/`**  
+  Configurações de ambiente.
+
+  - **`env.ts`**  
+    Arquivo que carrega variáveis de ambiente.
+
+---
+
+- **`server.ts`**  
+  Arquivo principal para inicializar o servidor da aplicação.
+
+---
+
+#### `.env.example`
+
+Exemplo de arquivo `.env` contendo variáveis de ambiente usadas na aplicação.
+
+#### `.gitignore`
+
+Lista de arquivos e pastas a serem ignorados pelo Git.
+
+#### `api.http`
+
+Arquivo usado para testar as rotas da API, provavelmente com uma ferramenta de HTTP client.
+
+#### `biome.json`
+
+Arquivo de configuração relacionado ao Biome, possivelmente um sistema de análise de desempenho ou ferramenta de testes.
+
+#### `docker-compose.yml`
+
+Arquivo de configuração para a execução de contêineres Docker.
+
+#### `drizzle.config.ts`
+
+Configuração do Drizzle ORM.
+
+#### `jest.config.js`
+
+Arquivo de configuração do Jest para testes unitários.
+
+#### `package-lock.json`
+
+Arquivo que mantém a versão exata das dependências instaladas no projeto.
+
+#### `package.json`
+
+Arquivo que define as dependências e scripts do projeto.
+
+#### `README.md`
+
+Documento de descrição do projeto, com instruções sobre como usá-lo.
+
+#### `tsconfig.json`
+
+Arquivo de configuração do TypeScript.
+
+#### `tsup.config.ts`
+
+Configuração do bundler `tsup`, utilizado para compilar o código TypeScript.
