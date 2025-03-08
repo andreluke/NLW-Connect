@@ -81,6 +81,21 @@ api/
    - Por padrão, o servidor rodará em `http://localhost:3000`
    - Documentação Swagger disponível em `http://localhost:3000/docs`
 
+## 📖 Documentação Swagger
+
+A API disponibiliza uma documentação interativa com **Swagger** acessível via `http://localhost:3000/docs`. As seguintes rotas estão disponíveis:
+
+### **Rotas disponíveis**
+
+- **`POST /subscriptions`** - Inscreve um usuário no evento.
+- **`GET /invites/{subscriberId}`** - Acessa o link de convite e redireciona o usuário.
+- **`GET /subscribers/{subscriberId}/ranking/clicks`** - Obtém o número de cliques no link de convite do inscrito.
+- **`GET /subscribers/{subscriberId}/ranking/count`** - Obtém a contagem de convites enviados por um inscrito.
+- **`GET /subscribers/{subscriberId}/ranking/position`** - Obtém a posição no ranking de um inscrito.
+- **`GET /ranking`** - Obtém o ranking geral dos inscritos.
+- **`GET /subscribers/{subscriberId}`** - Obtém detalhes de um inscrito específico.
+- **`DELETE /subscriptions/{subscriptionId}`** - Remove a inscrição de um usuário em um evento.
+
 ## 🛠️ Comandos Disponíveis
 
 | Comando              | Descrição                                    |
