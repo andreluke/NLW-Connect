@@ -115,6 +115,8 @@ Os testes utilizam **Jest** e estão localizados no diretório `src/__test__/`. 
 npm run test
 ```
 
+## 📁 Estrutura de Pastas e Arquivos
+
 ### File Tree completa
 
 ```sh
@@ -201,8 +203,6 @@ api/
 ├─ tsconfig.json
 └─ tsup.config.ts
 ```
-
-## 📁 Estrutura de Pastas e Arquivos
 
 ### `api/`
 
