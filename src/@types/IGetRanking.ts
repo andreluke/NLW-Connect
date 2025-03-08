@@ -23,4 +23,8 @@ interface GetRankingParams {
   db: DBClient | dbType
 }
 
-export type { GetRankingParams }
+export type {
+  GetRankingParams,
+  RedisClient as RedisClientZrevrange,
+  DBClient as DBRanking,
+}

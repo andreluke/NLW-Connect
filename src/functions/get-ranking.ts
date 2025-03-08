@@ -4,6 +4,7 @@ import { subscriptions } from '#/drizzle/schema/subscriptions'
 
 export async function getRanking({ redis, db }: GetRankingParams) {
   const ranking = await redis.zrevrange('referral:ranking', 0, 2, 'WITHSCORES')
+
   const subscriberMap: Record<string, number> = {}
 
   for (let i = 0; i < ranking.length; i += 2) {
