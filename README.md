@@ -115,14 +115,6 @@ Os testes utilizam **Jest** e estão localizados no diretório `src/__test__/`. 
 npm run test
 ```
 
-## 📜 Licença
-
-Este projeto está sob a licença **ISC**.
-
----
-
-🚀 **Desenvolvido com Fastify e Drizzle ORM para máxima performance e eficiência!**
-
 ### File Tree completa
 
 ```sh
@@ -502,3 +494,11 @@ Arquivo de configuração do TypeScript.
 #### `tsup.config.ts`
 
 Configuração do bundler `tsup`, utilizado para compilar o código TypeScript.
+
+## 📜 Licença
+
+Este projeto está sob a licença **ISC**.
+
+---
+
+🚀 **Desenvolvido com Fastify e Drizzle ORM para máxima performance e eficiência!**
