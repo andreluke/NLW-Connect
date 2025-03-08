@@ -12,6 +12,8 @@
     "WITHSCORES",
     "zincrby",
     "Zincrby",
-    "zrevrange"
+    "zrevrange",
+    "zrevrank",
+    "zscore"
   ]
 }

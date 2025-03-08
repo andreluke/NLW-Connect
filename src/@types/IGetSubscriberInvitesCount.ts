@@ -12,4 +12,7 @@ interface GetSubscriberInvitesCountParams {
   redis: RedisClient | Redis
 }
 
-export type { GetSubscriberInvitesCountParams }
+export type {
+  GetSubscriberInvitesCountParams,
+  RedisClient as RedisClientZscore,
+}
