@@ -18,7 +18,7 @@ var portSettings = {
   WEB_URL: env.WEB_URL
 };
 
-// src/config/pluggins.ts
+// src/config/plugins.ts
 import { fastifyCors } from "@fastify/cors";
 import { fastifySwagger } from "@fastify/swagger";
 import { fastifySwaggerUi } from "@fastify/swagger-ui";

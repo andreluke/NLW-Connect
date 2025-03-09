@@ -1,12 +1,9 @@
 POST http://localhost:3333/subscriptions
-
-# Exemplo de requisição post
 Content-Type: application/json
 
 {
     "name": "Luke",
-    "email": "andreluksssse@gmail.com",
-    "referrer": "b7203e5d-292d-43bc-a2c9-77a174d0d1dd"
+    "email": "andre.l.sales2706@gmail.com"
 }
 
 ###
